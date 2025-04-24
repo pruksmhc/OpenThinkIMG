@@ -24,20 +24,58 @@ model_semaphore = None
 
 np.random.seed(3)
 
+# def extract_points(generate_param, image_w, image_h):
+#     all_points = []
+#     for match in re.finditer(r'x\d*="\s*([0-9]+(?:\.[0-9]+)?)"\s+y\d*="\s*([0-9]+(?:\.[0-9]+)?)"', generate_param):
+#         try:
+#             point = [float(match.group(i)) for i in range(1, 3)]
+#         except ValueError:
+#             continue
+#         else:
+#             point = np.array(point)
+#             if np.max(point) > 100:
+#                 continue
+#             point /= 100.0
+#             point = point * np.array([image_w, image_h])
+#             all_points.append(point)
+#     return all_points
+
 def extract_points(generate_param, image_w, image_h):
     all_points = []
-    for match in re.finditer(r'x\d*="\s*([0-9]+(?:\.[0-9]+)?)"\s+y\d*="\s*([0-9]+(?:\.[0-9]+)?)"', generate_param):
-        try:
-            point = [float(match.group(i)) for i in range(1, 3)]
-        except ValueError:
+    
+    # Regular expression to match x and y values separately or together, with or without quotes
+    pattern = re.compile(r'(x\d*)?=\s*"?([0-9]+(?:\.[0-9]+)?)"?|'
+                         r'(y\d*)?=\s*"?([0-9]+(?:\.[0-9]+)?)"?')
+    
+    # Initialize default x and y
+    points = {}
+    for match in pattern.finditer(generate_param):
+        attr, x_val, _, y_val = match.groups()
+        
+        if attr and 'x' in attr:
+            points[attr] = float(x_val)
+        elif _ and 'y' in _:
+            points[_] = float(y_val)
+    
+    # Process matched pairs
+    indices = sorted(set(int(key[1:]) for key in points.keys() if key[1:].isdigit()))
+    if not indices:
+        indices = [0] if 'x' in points or 'y' in points else []
+    
+    for i in indices:
+        x_key = f'x{i}' if f'x{i}' in points else 'x'
+        y_key = f'y{i}' if f'y{i}' in points else 'y'
+        
+        x_value = points.get(x_key, 0.0)
+        y_value = points.get(y_key, 0.0)
+        
+        point = np.array([x_value, y_value])
+        if np.max(point) > 100:
             continue
-        else:
-            point = np.array(point)
-            if np.max(point) > 100:
-                continue
-            point /= 100.0
-            point = point * np.array([image_w, image_h])
-            all_points.append(point)
+        point /= 100.0
+        point = point * np.array([image_w, image_h])
+        all_points.append(point)
+    
     return all_points
     
 def DrawHorizontalLine(image, point_coords=None):
@@ -45,7 +83,7 @@ def DrawHorizontalLine(image, point_coords=None):
     if image_format not in ['png', 'jpeg', 'jpg']:
         image_format = 'png'
         
-    fig, ax = plt.subplots(figsize=(image.width / 100, image.height / 100), dpi=100)
+    fig, ax = plt.subplots()
     ax.imshow(image)
     ax.axis("off")
     
@@ -96,8 +134,6 @@ class DrawHorizontalLineToolWorker(BaseToolWorker):
             port,
             model_semaphore
             )
-
-        
     def init_model(self):
         logger.info(f"No need to initialize model {self.model_name}.")
         self.model = None
