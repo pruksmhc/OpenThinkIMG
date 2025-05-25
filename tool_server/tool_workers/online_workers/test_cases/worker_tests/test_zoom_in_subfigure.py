@@ -5,31 +5,18 @@ import time
 from io import BytesIO
 import cv2
 import sys
+
 import numpy as np
 
 
 import requests
+from PIL import Image
 import base64
 
 import torch
 import torchvision.transforms.functional as F
 
-import uuid
-import os
-import re
-import io
-
-from PIL import Image, ImageDraw
 from tool_server.utils.utils import *
-from tool_server.utils.server_utils import *
-import matplotlib.pyplot as plt
-
-from tool_server.tool_workers.online_workers.base_tool_worker import BaseToolWorker
-
-from tool_server.utils.cogcom.models.cogcom_model import CogCoMModel
-from tool_server.utils.cogcom.utils import chat
-from tool_server.utils.cogcom.utils import get_image_processor, llama2_tokenizer, llama2_text_processor_inference
-
 
 def load_image(image_path):
     img = Image.open(image_path).convert('RGB')
@@ -61,9 +48,8 @@ def main():
         worker_addr = args.worker_address
     else:
         controller_addr = args.controller_address
-        # ret = requests.post(controller_addr + "/refresh_all_workers")
+        ret = requests.post(controller_addr + "/refresh_all_workers")
         ret = requests.post(controller_addr + "/list_models")
-        print(f"list_models: {ret.json()}")
         models = ret.json()["models"]
         models.sort()
         print(f"Models: {models}")
@@ -86,7 +72,7 @@ def main():
         img_arg = args.image_path
     datas = {
         "model": model_name,
-        "param": args.obj,
+        "param": args.caption,
         "image": img_arg,
     }
     tic = time.time()
@@ -106,33 +92,42 @@ def main():
 
     # visualize
     res = response.json()
-    print(f"response: {res['text']}")
-    img_lists = res["subplot_images"]
-    if len(img_lists) > 0:
-        for idx,img in enumerate(img_lists):
-            image = base64_to_pil(img)
-            image.save(f"subplot_{idx}.png")
+    image_base64 = res["edited_image"]
+    for idx, return_image in enumerate(image_base64):
+        return_image = base64_to_pil(return_image)
+        return_image.save(f"return_image_{idx}.jpg")
+    # image = base64_to_pil(image_base64)
+    # image.save("cropped_image.jpg")
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     # worker parameters
     parser.add_argument(
-        "--controller-address", type=str, default="http://SH-IDCA1404-10-140-54-119:20001"
+        "--controller-address", type=str, default="http://SH-IDCA1404-10-140-54-2:20001"
     )
     parser.add_argument("--worker-address", type=str)
-    parser.add_argument("--model-name", type=str, default='SelectSubplot')
+    parser.add_argument("--model-name", type=str, default='ZoomInSubfigure')
 
     # model parameters
     parser.add_argument(
-        "--obj", type=str, default="Poland"
+        "--caption", type=str, default="truck"
+    )
+    parser.add_argument(
+        "--image_path", type=str, default="/mnt/petrelfs/songmingyang/code/reasoning/tool-agent/tool_server/tool_workers/online_workers/test_cases/truck.jpg"
+    )
+    
+    parser.add_argument(
+        "--box_threshold", type=float, default=0.3,
+    )
+    
+    parser.add_argument(
+        "--text_threshold", type=float, default=0.25,
     )
     parser.add_argument(
         "--send_image", action="store_true",
     )
-    parser.add_argument(
-        "--image_path", type=str, default="/mnt/petrelfs/haoyunzhuo/mmtool/ChaXiv/images/54.jpg"
-    )
     args = parser.parse_args()
-
+    args.send_image = True
+    
     main()

@@ -117,7 +117,7 @@ def create_gemini_json(param, img_list):
     return data
 
 def call_gemini(data):
-    api_key = "AIzaSyDlmb73omTgAGvw_a9lGxK5pC56fuLtJoQ"  # 替换为你的 API 密钥
+    api_key = os.environ.get("GOOGLE_API_KEY","your-api-key")
 
     proxies = {
         "http": "http://closeai-proxy.pjlab.org.cn:23128",  # 代理地址

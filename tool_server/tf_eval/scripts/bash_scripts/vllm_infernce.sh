@@ -25,8 +25,9 @@ unset HF_ENDPOINT
 
 code_base=/mnt/petrelfs/songmingyang/code/reasoning/tool-agent/tool_server
 cd $code_base
-job_id=4034906
+job_id=5056673
 export SLURM_JOB_ID=${job_id}
+unset SLURM_JOB_ID
 
 
 export API_TYPE=openai
@@ -37,14 +38,14 @@ export OPENAI_API_KEY=sk-B3bRcR0fLubdoSmJ2cE13e57708c439aA14f825eB5Eb25De
 config_file=$1
 export NCCL_DEBUG=ERROR
 export NCCL_DEBUG_SUBSYS=ALL
-export CUDA_VISIBLE_DEVICES=4,5,6,7
-export CUDA_DEVICE_ORDER=PCI_BUS_ID
+# export CUDA_VISIBLE_DEVICES=4,5,6,7
+# export CUDA_DEVICE_ORDER=PCI_BUS_ID
 export VLLM_WORKER_MULTIPROC_METHOD=spawn
 
 gpus=4
 cpus=32
-quotatype="reserved"
-OMP_NUM_THREADS=4 srun --partition=MoE --jobid=${job_id} --job-name="eval" --mpi=pmi2  --gres=gpu:${gpus} -n1 --ntasks-per-node=1 -c ${cpus} --kill-on-bad-exit=1 --quotatype=${quotatype}  \
+quotatype="auto"
+OMP_NUM_THREADS=8 srun --partition=MoE --job-name="eval" --mpi=pmi2  --gres=gpu:${gpus} -n1 --ntasks-per-node=1 -c ${cpus} --kill-on-bad-exit=1 --quotatype=${quotatype}  \
 python \
 -m tool_server.tf_eval --config  ${config_file} 
 
