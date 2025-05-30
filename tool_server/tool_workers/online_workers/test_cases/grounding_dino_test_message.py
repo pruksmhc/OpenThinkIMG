@@ -6,7 +6,7 @@ from io import BytesIO
 import cv2
 import sys
 
-from utils import annotate_xyxy
+
 import numpy as np
 
 
@@ -15,7 +15,10 @@ from PIL import Image
 import base64
 
 import torch
+import os
 import torchvision.transforms.functional as F
+
+from tool_server.tool_workers.online_workers.utils import annotate_xyxy
 
 def load_image(image_path):
     img = Image.open(image_path).convert('RGB')
@@ -93,29 +96,30 @@ def main():
 
     # visualize
     res = response.json()
-    boxes = torch.Tensor(res["boxes"])
-    logits =  torch.Tensor(res["logits"])
-    phrases = res["phrases"]
+    boxes = torch.Tensor(res["text"]["boxes"])
+    logits =  torch.Tensor(res["text"]["logits"])
+    phrases = res["text"]["phrases"]
     image_source = np.array(Image.open(args.image_path).convert("RGB"))
     annotated_frame = annotate_xyxy(image_source=image_source, boxes=boxes, logits=logits, phrases=phrases)
     cv2.imwrite("annotated_image.jpg", annotated_frame)
+
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     # worker parameters
     parser.add_argument(
-        "--controller-address", type=str, default="http://127.0.0.1:20001"
+        "--controller-address", type=str, default="http://SH-IDCA1404-10-140-54-2:20001"
     )
     parser.add_argument("--worker-address", type=str)
     parser.add_argument("--model-name", type=str, default='grounding_dino')
 
     # model parameters
     parser.add_argument(
-        "--caption", type=str, default="girl ."
+        "--caption", type=str, default="car"
     )
     parser.add_argument(
-        "--image_path", type=str, default="/mnt/petrelfs/songmingyang/code/tools/test_imgs/roxy.jpeg"
+        "--image_path", type=str, default="/mnt/petrelfs/songmingyang/code/reasoning/tool-agent/tool_server/tool_workers/online_workers/test_cases/truck.jpg"
     )
     
     parser.add_argument(
@@ -129,5 +133,5 @@ if __name__ == "__main__":
         "--send_image", action="store_true",
     )
     args = parser.parse_args()
-
+    args.send_image = True
     main()
