@@ -15,7 +15,19 @@ COPY weights/GroundingDINO_SwinT_OGC.py /weights/GroundingDINO_SwinT_OGC.py
 
 # === 创建日志目录 ===
 RUN mkdir -p /log
-RUN 
+RUN apt update
+RUN apt-get install -y libgl1
+RUN apt-get install -y libglib2.0-0
+RUN apt-get install -y git
+
+RUN git config --global http.sslVerify false
+
+RUN pip install git+https://github.com/facebookresearch/sam2.git
+RUN pip install git+https://github.com/IDEA-Research/GroundingDINO.git
+RUN pip install torch==2.0.1 torchvision==0.15.2 torchaudio==2.0.2 --index-url https://download.pytorch.org/whl/cu118
+
+
+RUN python -c "import easyocr; easyocr.Reader(['ch_sim','en'])"
 
 # === 设置环境变量 ===
 ENV PYTHONUNBUFFERED=1
@@ -24,8 +36,8 @@ ENV PYTHONUNBUFFERED=1
 WORKDIR /app/tool_agent
 
 # === 设置默认启动命令（等价于 %runscript）===
-CMD ["python", "tool_server/tool_workers/scripts/launch_scripts/start_server_local.py", 
-     "--config", 
+CMD ["python", "tool_server/tool_workers/scripts/launch_scripts/start_server_local.py", \
+     "--config",  \
      "tool_server/tool_workers/scripts/launch_scripts/config/service_apptainer.yaml"]
 
 # === 镜像元信息（可选）===
