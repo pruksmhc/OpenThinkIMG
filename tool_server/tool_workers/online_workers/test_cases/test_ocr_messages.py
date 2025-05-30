@@ -14,21 +14,12 @@ import base64
 import torch
 import torchvision.transforms.functional as F
 
-import uuid
-import os
-import re
-import io
 
 from PIL import Image, ImageDraw
 from tool_server.utils.utils import *
 from tool_server.utils.server_utils import *
-import matplotlib.pyplot as plt
 
-from tool_server.tool_workers.online_workers.base_tool_worker import BaseToolWorker
 
-from tool_server.utils.cogcom.models.cogcom_model import CogCoMModel
-from tool_server.utils.cogcom.utils import chat
-from tool_server.utils.cogcom.utils import get_image_processor, llama2_tokenizer, llama2_text_processor_inference
 
 
 def load_image(image_path):
@@ -112,18 +103,19 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     # worker parameters
     parser.add_argument(
-        "--controller-address", type=str, default="http://SH-IDCA1404-10-140-54-119:20001"
+        "--controller-address", type=str, default="http://localhost:20001"
     )
     parser.add_argument("--worker-address", type=str)
-    parser.add_argument("--model-name", type=str, default='ocr')
+    parser.add_argument("--model-name", type=str, default='OCR')
 
     # model parameters
     parser.add_argument(
         "--send_image", action="store_true",
     )
     parser.add_argument(
-        "--image_path", type=str, default="/mnt/petrelfs/haoyunzhuo/mmtool/Tool-Factory/tool_server/tool_workers/online_workers/test_cases/subplot_0.png"
+        "--image_path", type=str, default="./subplot_0.png"
     )
     args = parser.parse_args()
-
+    args.send_image = True
+    
     main()

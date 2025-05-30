@@ -24,7 +24,6 @@ from tool_server.utils.utils import *
 from tool_server.utils.server_utils import *
 import matplotlib.pyplot as plt
 
-from tool_server.tool_workers.online_workers.base_tool_worker import BaseToolWorker
 
 
 
@@ -114,7 +113,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     # worker parameters
     parser.add_argument(
-        "--controller-address", type=str, default="http://SH-IDCA1404-10-140-54-5:20001"
+        "--controller-address", type=str, default="http://localhost:20001"
     )
     parser.add_argument("--worker-address", type=str)
     parser.add_argument("--model-name", type=str, default='Point')
@@ -127,8 +126,9 @@ if __name__ == "__main__":
         "--send_image", action="store_true",
     )
     parser.add_argument(
-        "--image_path", type=str, default="/mnt/petrelfs/haoyunzhuo/mmtool/Tool-Factory/tool_server/tool_workers/restructure_worker/test_cases/mathvista_35.jpg"
+        "--image_path", type=str, default="./mathvista_35.jpg"
     )
     args = parser.parse_args()
+    args.send_image = True
 
     main()

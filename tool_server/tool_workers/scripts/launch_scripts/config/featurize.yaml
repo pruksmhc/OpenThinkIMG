@@ -28,24 +28,23 @@ tool_worker_config:
       worker_name: Point
       job_name: point
       calculate_type: control
-      # 本地GPU设备ID，根据您的硬件情况调整
-      cuda_visible_devices: "0"
+      cuda_visible_devices: "1"
       cmd:
         script-addr: ./online_workers/molmo_point_worker.py
         port: 20027
         host: "0.0.0.0"
-        model_path: "/mnt/petrelfs/share_data/songmingyang/model/mm/tools/Molmo-7B-D-0924"
+        model_path: "/home/featurize/work/tool/weights/Molmo-7B-D-0924"
 
   - SegmentRegionAroundPoint:
       worker_name: SegmentRegionAroundPoint
       job_name: sam2
       calculate_type: control
-      cuda_visible_devices: "1"  # 可根据您的硬件修改
+      cuda_visible_devices: "0"  # 可根据您的硬件修改
       cmd:
         script-addr: ./online_workers/SAMAroundPoint_worker.py
         port: 20036
         host: "0.0.0.0"
-        sam2_checkpoint: /mnt/petrelfs/share_data/suzhaochen/models/sam2-hiera-large/sam2_hiera_large.pt
+        sam2_checkpoint: /home/featurize/work/tool/weights/sam2-hiera-large/sam2_hiera_large.pt
         sam2_model_cfg: sam2_hiera_l.yaml
       
   - OCR:
@@ -53,7 +52,7 @@ tool_worker_config:
       job_name: ocr
       calculate_type: control
       # 如果OCR需要GPU，可以指定设备ID
-      cuda_visible_devices: "2"
+      cuda_visible_devices: "0"
       cmd:
         script-addr: ./online_workers/ocr_worker.py
         port: 20009
@@ -63,13 +62,13 @@ tool_worker_config:
       worker_name: GroundingDINO
       job_name: groundingdino
       calculate_type: control
-      cuda_visible_devices: "3"  # 可根据您的硬件修改
+      cuda_visible_devices: "0"  # 可根据您的硬件修改
       cmd:
         script-addr: ./online_workers/grounding_dino_worker.py
         port: 20003
         host: "0.0.0.0"
-        model-path: /mnt/petrelfs/songmingyang/songmingyang/model/mm/groundingdino_official/groundingdino_swint_ogc.pth
-        model-config: ../src/GroundingDINO/groundingdino/config/GroundingDINO_SwinT_OGC.py
+        model-path: /home/featurize/work/tool/weights/groundingdino_swint_ogc.pth
+        model-config: ../../src/GroundingDINO/groundingdino/config/GroundingDINO_SwinT_OGC.py
 
   - DrawHorizontalLineByY:
       worker_name: DrawHorizontalLineByY
