@@ -153,13 +153,11 @@ class DrawVerticalLineToolWorker(BaseToolWorker):
             logger.error("Missing 'param' or 'image' in the input parameters.")
             return {"text": "Missing 'param' or 'image' in the input parameters.", "edited_image": None}
         
+        ret = {"text": "", "error_code": 0}
         try:
             img = base64_to_pil(image).convert("RGB")
 
             width, height = img.size
-
-            ret = {"text": "", "error_code": 0}
-
             points = extract_points(generate_param, width, height)
 
             if not points:

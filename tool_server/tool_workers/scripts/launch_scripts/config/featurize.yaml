@@ -1,6 +1,6 @@
 # 基本目录配置 - 修改为您本地的路径
-base_dir: /app/OpenThinkIMG/tool_server/tool_workers
-log_folder: /log/server_log
+base_dir: /home/featurize/work/tool/OpenThinkIMG/tool_server/tool_workers
+log_folder: /home/featurize/work/tool/OpenThinkIMG/tool_server/tool_workers/logs/server_log
 
 # 本地配置中这些参数不会被使用，但保留以保持结构一致
 default_calculate_gpus: 1
@@ -15,7 +15,6 @@ controller_config:
   worker_name: controller
   job_name: controller
   calculate_type: control
-  controller_addr_location: /log/controller_addr.json
   cmd:
     script-addr: ./online_workers/controller.py
     port: 20001
@@ -29,26 +28,23 @@ tool_worker_config:
       worker_name: Point
       job_name: point
       calculate_type: control
-      # 本地GPU设备ID，根据您的硬件情况调整
-      cuda_visible_devices: "0"
+      cuda_visible_devices: "1"
       cmd:
         script-addr: ./online_workers/molmo_point_worker.py
         port: 20027
         host: "0.0.0.0"
-        model_path: "/weights/Molmo-7B-D-0924"
-        load-8bit: no
-        load-4bit: yes
+        model_path: "/home/featurize/work/tool/weights/Molmo-7B-D-0924"
 
   - SegmentRegionAroundPoint:
       worker_name: SegmentRegionAroundPoint
       job_name: sam2
       calculate_type: control
-      cuda_visible_devices: "1"  # 可根据您的硬件修改
+      cuda_visible_devices: "0"  # 可根据您的硬件修改
       cmd:
         script-addr: ./online_workers/SAMAroundPoint_worker.py
         port: 20036
         host: "0.0.0.0"
-        sam2_checkpoint: /weights/sam2-hiera-large/sam2_hiera_large.pt
+        sam2_checkpoint: /home/featurize/work/tool/weights/sam2-hiera-large/sam2_hiera_large.pt
         sam2_model_cfg: sam2_hiera_l.yaml
       
   - OCR:
@@ -56,7 +52,7 @@ tool_worker_config:
       job_name: ocr
       calculate_type: control
       # 如果OCR需要GPU，可以指定设备ID
-      cuda_visible_devices: "1"
+      cuda_visible_devices: "0"
       cmd:
         script-addr: ./online_workers/ocr_worker.py
         port: 20009
@@ -71,8 +67,8 @@ tool_worker_config:
         script-addr: ./online_workers/grounding_dino_worker.py
         port: 20003
         host: "0.0.0.0"
-        model-path: /weights/groundingdino_swint_ogc.pth
-        model-config: /weights/GroundingDINO_SwinT_OGC.py
+        model-path: /home/featurize/work/tool/weights/groundingdino_swint_ogc.pth
+        model-config: ../../src/GroundingDINO/groundingdino/config/GroundingDINO_SwinT_OGC.py
 
   - DrawHorizontalLineByY:
       worker_name: DrawHorizontalLineByY

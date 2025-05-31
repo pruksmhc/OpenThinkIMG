@@ -20,7 +20,6 @@ import re
 import io
 
 from PIL import Image, ImageDraw
-from tool_server.utils import build_logger, pretty_print_semaphore
 from tool_server.utils.utils import *
 from tool_server.utils.server_utils import *
 import matplotlib.pyplot as plt
@@ -106,14 +105,14 @@ def main():
     print(f"response: {res['text']}")
     image_base64 = res["edited_image"]
     image = base64_to_pil(image_base64)
-    image.save("/mnt/petrelfs/haoyunzhuo/mmtool/Tool-Factory/tool_server/tool_workers/restructure_worker/test_cases/draw_vertical_line_img.png")
+    image.save("drawline_res.png")
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     # worker parameters
     parser.add_argument(
-        "--controller-address", type=str, default="http://SH-IDCA1404-10-140-54-5:20001"
+        "--controller-address", type=str, default="http://localhost:20001"
     )
     parser.add_argument("--worker-address", type=str)
     parser.add_argument("--model-name", type=str, default='DrawVerticalLineByX')
@@ -126,8 +125,9 @@ if __name__ == "__main__":
         "--send_image", action="store_true",
     )
     parser.add_argument(
-        "--image_path", type=str, default="/mnt/petrelfs/haoyunzhuo/mmtool/Tool-Factory/tool_server/tool_workers/restructure_worker/test_cases/two_col_102588.png"
+        "--image_path", type=str, default="./two_col_102588.png"
     )
     args = parser.parse_args()
-
+    args.send_image=True
+    
     main()

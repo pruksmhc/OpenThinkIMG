@@ -1,6 +1,6 @@
 # 基本目录配置 - 修改为您本地的路径
-base_dir: /mnt/petrelfs/songmingyang/code/reasoning/tool-agent/tool_server/tool_workers
-log_folder: /mnt/petrelfs/songmingyang/code/reasoning/tool-agent/tool_server/tool_workers/logs/server_log
+base_dir: /home/featurize/work/tool/OpenThinkIMG/tool_server/tool_workers
+log_folder: /home/featurize/work/tool/OpenThinkIMG/tool_server/tool_workers/logs/server_log
 
 # 本地配置中这些参数不会被使用，但保留以保持结构一致
 default_calculate_gpus: 1
@@ -69,7 +69,7 @@ tool_worker_config:
         port: 20003
         host: "0.0.0.0"
         model-path: /mnt/petrelfs/songmingyang/songmingyang/model/mm/groundingdino_official/groundingdino_swint_ogc.pth
-        model-config: /mnt/petrelfs/songmingyang/code/reasoning/tool-agent/src/GroundingDINO/groundingdino/config/GroundingDINO_SwinT_OGC.py
+        model-config: ../src/GroundingDINO/groundingdino/config/GroundingDINO_SwinT_OGC.py
 
   - DrawHorizontalLineByY:
       worker_name: DrawHorizontalLineByY
