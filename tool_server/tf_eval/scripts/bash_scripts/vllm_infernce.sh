@@ -25,9 +25,9 @@ unset HF_ENDPOINT
 
 code_base=/mnt/petrelfs/songmingyang/code/reasoning/tool-agent/tool_server
 cd $code_base
-job_id=5056673
+job_id=5079273
 export SLURM_JOB_ID=${job_id}
-unset SLURM_JOB_ID
+# unset SLURM_JOB_ID
 
 
 export API_TYPE=openai
