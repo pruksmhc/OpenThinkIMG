@@ -32,6 +32,7 @@ Humans don't just passively observe; we actively engage with visual information,
 
 
 ## News
+- **[2025/06/30]** We have released ["Thinking with Images for Multimodal Reasoning: Foundations, Methods, and Future Frontiers"](https://arxiv.org/pdf/2506.23918), the **first comprehensive survey** dedicated to the emerging paradigm of "Think with Images". We also maintain a real-time [GitHub repository](https://github.com/zhaochen0110/Awesome_Think_With_Images/) tracking this progress (🔥 600+🌟).
 - **[2025/06/01]** 🐳 We have released an official [Docker image](https://github.com/OpenThinkIMG/OpenThinkIMG?tab=readme-ov-file#-option-1-docker-image) of `tool server`.
 - **[2025/05/17]** Our work is reported by [Qubit (量子位)](https://mp.weixin.qq.com/s/BU1M6aOidMkr9mBiAKyA3Q)
 - **[2025/05/14]** Our work is reported by both [Deep Learning and NLP (深度学习自然语言处理)](https://mp.weixin.qq.com/s/_GCvkg7bb5-NiId_4s5cMg) and [Machine Learning and NLP (机器学习算法与自然语言处理)](https://mp.weixin.qq.com/s/p2OJzSp4BKSfGVjv2KWEFg).
