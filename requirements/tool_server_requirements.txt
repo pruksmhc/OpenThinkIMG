@@ -41,7 +41,7 @@ Markdown==3.8
 markdown-it-py==3.0.0
 matplotlib==3.10.3
 mdurl==0.1.2
-mkl-service==2.4.0
+mkl-service
 ml_dtypes==0.5.1
 namex==0.1.0
 ninja==1.11.1.4
@@ -81,10 +81,7 @@ termcolor==3.1.0
 tifffile==2025.5.10
 timm==1.0.15
 tokenizers==0.20.3
-torch==2.0.1+cu118
-torchaudio==2.0.2+cu118
 torchelastic==0.2.2
-torchvision==0.15.2+cu118
 tqdm==4.67.1
 transformers==4.46.1
 triton==2.0.0

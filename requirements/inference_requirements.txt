@@ -71,7 +71,6 @@ fastrlock==0.8.3
 ffmpy==0.5.0
 filelock==3.17.0
 fire==0.7.0
-flash_attn==2.7.3
 fonttools==4.55.6
 fqdn==1.5.1
 frozenlist==1.5.0
@@ -80,11 +79,6 @@ ftfy==6.3.1
 gguf==0.10.0
 gitdb==4.0.12
 GitPython==3.1.44
-google-api-core==2.24.1
-google-auth==2.38.0
-googleapis-common-protos==1.66.0
-gradio==5.12.0
-gradio_client==1.5.4
 grpcio==1.70.0
 h11==0.16.0
 hf_transfer==0.1.9
@@ -128,8 +122,6 @@ jupyterlab_server==2.27.3
 jupyterlab_widgets==3.0.13
 kiwisolver==1.4.8
 lark==1.2.2
-latex2sympy2==1.9.1
-latex2sympy2_extended==1.10.1
 lazy_loader==0.4
 librosa==0.11.0
 liger_kernel==0.5.2
@@ -219,8 +211,7 @@ psutil==6.1.1
 ptyprocess==0.7.0
 pure_eval==0.2.3
 py-cpuinfo==9.0.0
-py-spy==0.4.0
-pyairports==2.1.1
+py-spy
 pyarrow==19.0.0
 pyarrow-hotfix==0.6
 pyasn1==0.6.1
@@ -303,10 +294,7 @@ tinycss2==1.4.0
 tokenizers==0.21.0
 tomli==2.2.1
 tomlkit==0.13.2
-torch==2.6.0
-torchaudio==2.6.0
 torchdata==0.11.0
-torchvision==0.21.0
 tornado==6.4.2
 tqdm==4.67.1
 tqdm-multiprocess==0.0.11

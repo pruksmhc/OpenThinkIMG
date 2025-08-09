@@ -46,7 +46,9 @@ class BaseToolInferencer(object):
             stop_token=self.stop_token,
             generate_conversation_fn = self.tp_model.generate_conversation_fn,
         )
-        self.tool_manager = ToolManager()
+        print("Controlelr addr")
+        print(controller_addr)
+        self.tool_manager = ToolManager(controller_addr)
         self.available_models = self.tool_manager.available_tools
         
 
