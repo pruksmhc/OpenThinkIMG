@@ -189,6 +189,7 @@ class Controller:
 
         for worker_name in to_delete:
             self.remove_worker(worker_name)
+            logger.info(f"Removing worker due to expired heartbeat {worker_name}")
 
     def worker_api_generate_stream(self, params):
         worker_addr = self.get_worker_address(params["model"])

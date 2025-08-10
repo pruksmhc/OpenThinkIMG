@@ -65,7 +65,8 @@ class OCRToolWorker(BaseToolWorker):
             )
     def init_model(self):
         logger.info(f"Initializing model {self.model_name}...")
-        self.ocr_model = easyocr.Reader(['ch_sim','en'])
+        self.ocr_model = easyocr.Reader(['en'], model_storage_directory='/root/.EasyOCR/model', download_enabled=False)
+        logger.info("Finished initializing model")
 
         
     def generate(self, params):
