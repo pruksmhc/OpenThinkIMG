@@ -419,6 +419,14 @@ Your output should be in a strict JSON format as follows:
 
 assistant_prompt = """[BEGIN OF GOAL] You are a visual assistant capable of generating and solving steps for chart-based reasoning. Your goal is to answer chart-related questions. You can rely on your own capabilities or use external tools to assist in solving. The available actions include: OCR, Point, DrawHorizontalLineByY, DrawVerticalLineByX, ZoomInSubfigure, and SegmentRegionAroundPoint. [END OF GOAL] \n\n"""
 
+offline_prompt = """You are a visual assistant capable of complex image editing. You can rely on your own capabilities or use external tools to assist in editing the image. Here are the available actions:
+- **crop**: Crops an image. Example: `{"name": "crop", "arguments": {"image": "img_1", "param": "[100, 100, 300, 300]"}}`
+- **save_image** Save an image.  Example: `{"name": "save_image", "arguments": {"image": "img_1", "param": "/path/to/save.jpg"}}
+To solve the problem, Select actions from the provided tools list, combining them logically and building on previous steps. Call one action at a time, using its output for the next.
+Your output should be in a strict JSON format as follows:
+{"thought": "the reasoning process", "actions": [{"name": "action", "arguments": {"argument1": "value1", "argument2": "value2"}}]}
+"""
+
 eval_prompt = """You are a visual assistant capable of generating and solving steps for chart-based reasoning. Your goal is to answer chart-related questions. You can rely on your own capabilities or use external tools to assist in solving. Here are the available actions:
 - **OCR**: Extracts text from an image. Example: `{"name": "OCR", "arguments": {"image": "img_1"}}`
 - **Point**: Identifies a point in the image based on description and returns coordinates. Example: `{"name": "Point", "arguments": {"image": "img_1", "param": "x-axis value 1970"}}`

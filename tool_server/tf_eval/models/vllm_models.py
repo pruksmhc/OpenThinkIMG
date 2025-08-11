@@ -38,13 +38,19 @@ class VllmModels(tp_model):
         text = "Question: " + text
         
         image = pil_to_base64(image)
+        offline_prompt = """You are a visual assistant capable of generating and solving steps for chart-based reasoning. Your goal is to answer chart-related questions. You can rely on your own capabilities or use external tools to assist in solving. Here are the available actions:
+    - **crop**: Crops an image. Example: `{"name": "crop", "arguments": {"image": "img_1", "param": "[100, 100, 300, 300]"}}`
+    To solve the problem, Select actions from the provided tools list, combining them logically and building on previous steps. Call one action at a time, using its output for the next.
+    Your output should be in a strict JSON format as follows:
+    {"thought": "the reasoning process", "actions": [{"name": "action", "arguments": {"argument1": "value1", "argument2": "value2"}}]}
+    """
         messages = [
             {
                 "role": "system",
                 "content": [
                     {
                         "type": "text",
-                        "text": eval_prompt,
+                        "text": offline_prompt,
                     },
                 ],
             },

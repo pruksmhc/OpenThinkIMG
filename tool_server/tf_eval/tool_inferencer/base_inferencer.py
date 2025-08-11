@@ -288,8 +288,8 @@ class BaseToolInferencer(object):
         self.manager.append_item_to_full(self.dataloader_iter, progress_bar=progress_bar)
 
 
-        current_batch = self.manager.get_current_batch()
-        self.tp_model.generate(current_batch)
+        current_batch = self.manager.get_current_batch() # from dataset, formats into required format.
+        self.tp_model.generate(current_batch) # Tokenizes using processor and generates. 
 
         self.manager.update_item_status()
         while len(current_batch) > 0:
