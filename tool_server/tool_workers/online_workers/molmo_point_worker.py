@@ -134,6 +134,7 @@ class MolmoToolWorker(BaseToolWorker):
             logger.info(f"Using quantization config: {quant_config}")
 
         # load the processor
+        
         self.processor = AutoProcessor.from_pretrained(
             self.model_path,
             trust_remote_code=True,
@@ -146,7 +147,7 @@ class MolmoToolWorker(BaseToolWorker):
             self.model_path,
             trust_remote_code=True,
             torch_dtype='auto',
-            device_map='auto',
+            device_map={"": 0},
             quantization_config=quant_config
         )
 
